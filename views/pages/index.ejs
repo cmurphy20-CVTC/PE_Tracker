@@ -11,6 +11,31 @@
                     
                 
             <% }); %>
+
+            <script>
+                let currentTaskId = null;
+                
+                const logTask = async function(id) {
+                    const response = await fetch('/log', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            user_id: -1,
+                            students_id: -1,
+                            tasks_id: id,
+                            duration: 1
+                        })
+                    });
+                    const result = await response.json();
+                    console.log(result);
+
+                    currentTaskId = id;
+
+                };
+            </script>
         </body>
 
     </head>

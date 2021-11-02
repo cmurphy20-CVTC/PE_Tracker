@@ -91,4 +91,24 @@ express()
         res.send("Error " + err);
     }
 })
+.post('/log', async(req, res) => {
+    try {
+        const client = await pool.connect();
+        const usersId = req.body.users_id;
+        const studentsId = req.body.students_id;
+        const tasksId = req.body.tasks_id;
+        const duration = req.body.duration;
+
+        const sqlInsert = await client.query(
+            `INSERT INTO observations (users_id, students_id, tasks_id, duration)
+            VALUES (${usersId}, ${studentsId}, ${tasksId}, ${duration});
+            `);
+      
+    }
+
+    catch (err) {
+        console.error(err);
+        res.send("Error " + err);
+    }
+})
 .listen(PORT, () => console.log(`Listening on ${ PORT }`));
