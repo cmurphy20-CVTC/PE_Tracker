@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PE Tracker</title>
+        <meta charset="UTF-8">
+        <body>
+            <h1>PE Tracker</h1>
+            <% tasks.forEach(function(r) {%>
+                <button id='<%= r.id %>'
+                    onClick='javascript:logTask(<%= r.id %>);'><%= r.name %></button>
+                    
+                
+            <% }); %>
+        </body>
+
+    </head>
+
+
+
+</html>
