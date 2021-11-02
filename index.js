@@ -76,15 +76,19 @@ express()
             WHERE c.relname IN('users', 'observations', 'students', 'schools', 'tasks', )
             ORDER BY c.relname, a.attnum;`);
 
+            const obs = await client.query(
+                `SELECT * FROM observations`);
+
             const locals = {
-                'tables': (tables) ? tables.rows: null
+                'tables': (tables) ? tables.rows: null,
+                'obs': (obs) ? obs.rows : null
             };
+
+            console.log(obs.rows[0].duration.minutes);
 
             res.render('pages/db-info', locals);
             client.release();
     }
-
-   
 
     catch(err) {
         console.error(err);
@@ -101,9 +105,19 @@ express()
 
         const sqlInsert = await client.query(
             `INSERT INTO observations (users_id, students_id, tasks_id, duration)
-            VALUES (${usersId}, ${studentsId}, ${tasksId}, ${duration});
+            VALUES (${usersId}, ${studentsId}, ${tasksId}, ${duration})
+            RETURNING id as new_id;;
             `);
-      
+      console.log('Tracking task ${tasksId}');
+
+      const result = {
+          'response': (sqlInsert) ? (sqlInsert.rows[0]) : null
+      };
+      res.set({
+          'Content-Type': 'application.json'
+      });
+      res.json({ requestBody: result});
+      client.release();
     }
 
     catch (err) {
