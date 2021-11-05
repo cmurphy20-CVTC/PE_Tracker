@@ -37,11 +37,10 @@ express()
         
         const tables = await client.query(
 
-            `
-            CREATE TABLE users (
+            `CREATE TABLE users (
                 id SERIAL PRIMARY KEY,
                 email text NOT NULL,
-                password text NOT NULL,
+                password text NOT NULL
             );
             
             CREATE TABLE students (
@@ -54,7 +53,7 @@ express()
             CREATE TABLE schools (
                 id SERIAL PRIMARY KEY,
                 name TEXT NOT NULL,
-                address TEXT NOT NULL,
+                address TEXT NOT NULL
             );
             
             CREATE TABLE observations (
@@ -73,11 +72,11 @@ express()
             SELECT c.relname AS table, a.attname AS column, t.typname AS type FROM pg_catalog.pg_class AS c
             LEFT JOIN pg_catalog.pg_attribute AS a ON c.oid = a.attrelid AND a.attnum > 0 LEFT JOIN pg_catalog.pg_type AS t 
             ON a.atttypid = t.oid
-            WHERE c.relname IN('users', 'observations', 'students', 'schools', 'tasks', )
+            WHERE c.relname IN('users', 'observations', 'students', 'schools', 'tasks' )
             ORDER BY c.relname, a.attnum;`);
 
             const obs = await client.query(
-                `SELECT * FROM observations`);
+                'SELECT * FROM observations');
 
             const locals = {
                 'tables': (tables) ? tables.rows: null,
