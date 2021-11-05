@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require ('express');
 const path = require('path');
 const {Pool} = require('pg');
@@ -19,7 +21,7 @@ express()
     try{
 
     const client = await pool.connect();
-
+        console.log(process.env.DATABASE_URL);
     client.release();
     res.send("Works");
 
@@ -30,45 +32,45 @@ express()
         res.send("Error " + err);
     }
 })
-.get('/db-info', async(requ, res) => {
+.get('/db-info', async(req, res) => {
     try {
 
         const client = await pool.connect();
         
         const tables = await client.query(
 
-            `CREATE TABLE users (
-                id SERIAL PRIMARY KEY,
-                email text NOT NULL,
-                password text NOT NULL
-            );
+            // `CREATE TABLE users (
+            //     id SERIAL PRIMARY KEY,
+            //     email text NOT NULL,
+            //     password text NOT NULL
+            // );
             
-            CREATE TABLE students (
-                id SERIAL PRIMARY KEY,
-                name TEXT NOT NULL,
-                school INT NOT NULL,
-                expires DATE NOT NULL
-            );
+            // CREATE TABLE students (
+            //     id SERIAL PRIMARY KEY,
+            //     name TEXT NOT NULL,
+            //     school INT NOT NULL,
+            //     expires DATE NOT NULL
+            // );
             
-            CREATE TABLE schools (
-                id SERIAL PRIMARY KEY,
-                name TEXT NOT NULL,
-                address TEXT NOT NULL
-            );
+            // CREATE TABLE schools (
+            //     id SERIAL PRIMARY KEY,
+            //     name TEXT NOT NULL,
+            //     address TEXT NOT NULL
+            // );
             
-            CREATE TABLE observations (
-                id SERIAL PRIMARY KEY,
-                users_id INT NOT NULL,
-                students_id INT NOT NULL,
-                tasks_id INT NOT NULL,
-                duration INTERVAL NOT NULL
-            );
+            // CREATE TABLE observations (
+            //     id SERIAL PRIMARY KEY,
+            //     users_id INT NOT NULL,
+            //     students_id INT NOT NULL,
+            //     tasks_id INT NOT NULL,
+            //     duration INTERVAL NOT NULL
+            // );
             
-            CREATE TABLE tasks (
-                id SERIAL PRIMARY KEY,
-                name TEXT NOT NULL
-            );
-                        
+            // CREATE TABLE tasks (
+            //     id SERIAL PRIMARY KEY,
+            //     name TEXT NOT NULL
+            // );
+          `              
             SELECT c.relname AS table, a.attname AS column, t.typname AS type FROM pg_catalog.pg_class AS c
             LEFT JOIN pg_catalog.pg_attribute AS a ON c.oid = a.attrelid AND a.attnum > 0 LEFT JOIN pg_catalog.pg_type AS t 
             ON a.atttypid = t.oid
