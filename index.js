@@ -22,8 +22,18 @@ express()
 
     const client = await pool.connect();
         console.log(process.env.DATABASE_URL);
+
+    const tasks = await client.query(
+        `SELECT * FROM tasks ORDER BY id ASC`);
+        
+        const locals = {
+
+            'tasks': (tasks) ? tasks.rows : null
+        };
+
+        res.render('pages/index', locals);
+
     client.release();
-    res.send("Works");
 
     }
 
@@ -38,40 +48,8 @@ express()
         const client = await pool.connect();
         
         const tables = await client.query(
-
-            // `CREATE TABLE users (
-            //     id SERIAL PRIMARY KEY,
-            //     email text NOT NULL,
-            //     password text NOT NULL
-            // );
-            
-            // CREATE TABLE students (
-            //     id SERIAL PRIMARY KEY,
-            //     name TEXT NOT NULL,
-            //     school INT NOT NULL,
-            //     expires DATE NOT NULL
-            // );
-            
-            // CREATE TABLE schools (
-            //     id SERIAL PRIMARY KEY,
-            //     name TEXT NOT NULL,
-            //     address TEXT NOT NULL
-            // );
-            
-            // CREATE TABLE observations (
-            //     id SERIAL PRIMARY KEY,
-            //     users_id INT NOT NULL,
-            //     students_id INT NOT NULL,
-            //     tasks_id INT NOT NULL,
-            //     duration INTERVAL NOT NULL
-            // );
-            
-            // CREATE TABLE tasks (
-            //     id SERIAL PRIMARY KEY,
-            //     name TEXT NOT NULL
-            // );
-          `              
-            SELECT c.relname AS table, a.attname AS column, t.typname AS type FROM pg_catalog.pg_class AS c
+ 
+          ` SELECT c.relname AS table, a.attname AS column, t.typname AS type FROM pg_catalog.pg_class AS c
             LEFT JOIN pg_catalog.pg_attribute AS a ON c.oid = a.attrelid AND a.attnum > 0 LEFT JOIN pg_catalog.pg_type AS t 
             ON a.atttypid = t.oid
             WHERE c.relname IN('users', 'observations', 'students', 'schools', 'tasks' )
@@ -96,6 +74,35 @@ express()
         res.send("Error " + err);
     }
 })
+
+.get('/timer', async(req, res) => {
+
+    try{
+
+    const client = await pool.connect();
+        console.log(process.env.DATABASE_URL);
+
+    const tasks = await client.query(
+        `SELECT * FROM tasks ORDER BY id ASC`);
+        
+        const locals = {
+
+            'tasks': (tasks) ? tasks.rows : null
+        };
+
+        res.render('pages/timer', locals);
+
+    client.release();
+
+    }
+
+    catch(err) {
+        console.error(err);
+        res.send("Error " + err);
+    }
+})
+
+
 .post('/log', async(req, res) => {
     try {
         const client = await pool.connect();
@@ -107,15 +114,17 @@ express()
         const sqlInsert = await client.query(
             `INSERT INTO observations (users_id, students_id, tasks_id, duration)
             VALUES (${usersId}, ${studentsId}, ${tasksId}, ${duration})
-            RETURNING id as new_id;;
-            `);
-      console.log('Tracking task ${tasksId}');
+            RETURNING id as new_id;`);
+
+      console.log(sql);
+
+     
 
       const result = {
           'response': (sqlInsert) ? (sqlInsert.rows[0]) : null
       };
       res.set({
-          'Content-Type': 'application.json'
+          'Content-Type': 'application/json'
       });
       res.json({ requestBody: result});
       client.release();
