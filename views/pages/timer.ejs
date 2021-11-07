@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timer</title>
 
+    <link rel="stylesheet" type="text/css" href="/styles/styles.css">
+
 </head>
 <body>
 
@@ -22,114 +24,114 @@
 
     </div>
 
-    <script>
+    <script src="/js/timer.js">
         
-let seconds = 0;
-let minutes = 0;
-let hours = 0;
-let displaySeconds = 0;
-let displayMinutes = 0;
-let displayHours = 0;
-let interval = null;
-let status = "stopped";
+// let seconds = 0;
+// let minutes = 0;
+// let hours = 0;
+// let displaySeconds = 0;
+// let displayMinutes = 0;
+// let displayHours = 0;
+// let interval = null;
+// let status = "stopped";
 
 
-function stopWatch() {
+// function stopWatch() {
 
-    seconds ++;
+//     seconds ++;
 
-    if (seconds / 60 == 1) {
+//     if (seconds / 60 == 1) {
 
-        seconds = 0;
+//         seconds = 0;
 
-        minutes ++;
+//         minutes ++;
 
-        if (minutes / 60 == 1) {
+//         if (minutes / 60 == 1) {
 
-            minutes = 0;
+//             minutes = 0;
 
-            hours ++;
+//             hours ++;
 
-        }
-    }
+//         }
+//     }
 
-    if (seconds < 10) {
+//     if (seconds < 10) {
 
-        displaySeconds = "0" + seconds.toString();
-    } else {
+//         displaySeconds = "0" + seconds.toString();
+//     } else {
 
-        displaySeconds = seconds;
+//         displaySeconds = seconds;
 
-    }
+//     }
 
-    if (minutes < 10) {
+//     if (minutes < 10) {
 
-        displayMinutes = "0" + minutes.toString();
-    } else {
+//         displayMinutes = "0" + minutes.toString();
+//     } else {
 
-        displayMinutes = minutes;
+//         displayMinutes = minutes;
         
-    }
+//     }
 
-    if (minutes < 10) {
+//     if (minutes < 10) {
 
-        displayMinutes = "0" + minutes.toString();
-    } else {
+//         displayMinutes = "0" + minutes.toString();
+//     } else {
 
-        displayMinutes = minutes;
+//         displayMinutes = minutes;
 
         
-    }  if (hours < 10) {
+//     }  if (hours < 10) {
 
-        displayHours = "0" + hours.toString();
+//         displayHours = "0" + hours.toString();
 
-    } else {
+//     } else {
 
-        displayHours = hours;
+//         displayHours = hours;
         
-    }
+//     }
 
-    document.getElementById("display").innerHTML = displayHours + ":" + displayMinutes + ":" + displaySeconds;
+//     document.getElementById("display").innerHTML = displayHours + ":" + displayMinutes + ":" + displaySeconds;
 
-}
+// }
 
-function startStop() {
+// function startStop() {
 	
-	if (status === "stopped") {
+// 	if (status === "stopped") {
 		
-		interval = setInterval(stopWatch, 1000);
+// 		interval = setInterval(stopWatch, 1000);
 		
-		document.getElementById("startStop").innerHTML = "Stop";
+// 		document.getElementById("startStop").innerHTML = "Stop";
 		
-		status = "started";
+// 		status = "started";
 		
-	} else {
+// 	} else {
 		
-        const timerId = setImmediate(stopWatch);
+//         const timerId = setImmediate(stopWatch);
 
-        clearImmediate(timerId);
+//         clearImmediate(timerId);
 		
-		document.getElementById("startStop").innerHTML = "Start";
+// 		document.getElementById("startStop").innerHTML = "Start";
 		
-		status = "stopped";
+// 		status = "stopped";
 		
-	}
+// 	}
 	
-}
+// }
 
-function reset() {
+// function reset() {
 	
-    clearTimeout(stopWatch);
+//     clearTimeout(stopWatch);
 	
-	seconds = 0;
-	minutes = 0;
-	hours = 0;
+// 	seconds = 0;
+// 	minutes = 0;
+// 	hours = 0;
 	
-	document.getElementById("display").innerHTML = "00:00:00";
+// 	document.getElementById("display").innerHTML = "00:00:00";
 	
-	document.getElementById("startStop").innerHTML = "Start";
+// 	document.getElementById("startStop").innerHTML = "Start";
 	
-}
+// }
     </script>
     
 </body>

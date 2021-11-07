@@ -85,9 +85,12 @@ express()
     const tasks = await client.query(
         `SELECT * FROM tasks ORDER BY id ASC`);
         
-        const locals = {
+        const obs = await client.query(
+            'SELECT * FROM observations');
 
-            'tasks': (tasks) ? tasks.rows : null
+        const locals = {
+            
+            'obs': (obs) ? obs.rows : null
         };
 
         res.render('pages/timer', locals);
