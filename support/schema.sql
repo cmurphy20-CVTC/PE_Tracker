@@ -31,7 +31,7 @@ CREATE TABLE tasks (
 );
 
 INSERT INTO tasks (name) VALUES
-    ('Planned Pres.');
+    ('Monitor');
 
 INSERT INTO observations(users_id, students_id, tasks_id, duration) VALUES (1, 2, 3, '00:01');
     
